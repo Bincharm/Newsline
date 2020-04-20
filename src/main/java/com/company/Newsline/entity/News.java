@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +29,7 @@ public class News {
     @CreationTimestamp
     @NotNull
     @Column
-    private Timestamp postDate;
+    private Date postDate = new Date();
 
     @NotNull
     @Column(length = 2000)

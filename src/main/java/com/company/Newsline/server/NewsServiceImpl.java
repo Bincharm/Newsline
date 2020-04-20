@@ -8,7 +8,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.awt.print.Book;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,5 +38,28 @@ public class NewsServiceImpl implements NewsService{
         return newsRepository.findAll();
     }
 
+    public void saveNews(News news, MultipartFile image){
+
+        try {
+            Byte[] byteObjects = new Byte[image.getBytes().length];
+
+            int i = 0;
+
+            for (byte b : image.getBytes()) {
+                byteObjects[i++] = b;
+            }
+
+            news.setImage(byteObjects);
+            newsRepository.save(news);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public News findById(Long newsId){
+        if(!newsRepository.findById(newsId).isPresent())
+            return new News();
+        return newsRepository.findById(newsId).get();
+    }
 
 }
