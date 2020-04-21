@@ -1,4 +1,4 @@
-package com.company.Newsline.server;
+package com.company.Newsline.service;
 
 import com.company.Newsline.entity.Role;
 import com.company.Newsline.repository.RoleRepository;

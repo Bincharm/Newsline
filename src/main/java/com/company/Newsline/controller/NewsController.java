@@ -1,22 +1,15 @@
 package com.company.Newsline.controller;
 
 import com.company.Newsline.entity.News;
-import com.company.Newsline.server.NewsService;
-import com.company.Newsline.server.NewsServiceImpl;
-import org.aspectj.lang.annotation.Pointcut;
+import com.company.Newsline.model.NewsModel;
+import com.company.Newsline.service.NewsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/news")
@@ -32,8 +25,8 @@ public class NewsController {
     }
 
     @PostMapping
-    public String saveNews(@ModelAttribute("newsForm") @Valid News newsForm, @RequestParam("image") MultipartFile image){
-        newsServiceImpl.saveNews(newsForm, image);
+    public String saveNews(@ModelAttribute("newsForm") NewsModel newsModel){
+        newsServiceImpl.saveNewsFromModel(newsModel);
         return "redirect:/news";
     }
 
@@ -41,6 +34,17 @@ public class NewsController {
     public String getNewsFullVersion(Model model, @PathVariable("newsId") Long newsId){
         model.addAttribute("fullNews", newsServiceImpl.findById(newsId));
         return "newsFullVersion";
+    }
+
+    @GetMapping("/newsSaving/{newsId}")
+    public String getNewsSavingForUpdate(Model model, @PathVariable("newsId") Long newsId){
+        model.addAttribute("news", newsServiceImpl.findById(newsId));
+        return "newsSaving";
+    }
+
+    @GetMapping("/newsSaving")
+    public String getNewsSavingForCreate(){
+        return "newsSaving";
     }
 
 

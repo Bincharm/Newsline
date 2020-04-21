@@ -1,7 +1,7 @@
 package com.company.Newsline.controller;
 
 import com.company.Newsline.entity.User;
-import com.company.Newsline.server.UserService;
+import com.company.Newsline.service.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;

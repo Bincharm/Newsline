@@ -1,6 +1,7 @@
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
         <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
         <!DOCTYPE html>
         <html>
@@ -21,8 +22,11 @@
         </thead>
             <tr>
             <td>
-                ${fullNews.postDate}
-                ${fullNews.newsBody}
+                <p> <fmt:formatDate value="${fullNews.postDate}" pattern="E, dd MMM yyyy HH:mm:ss" /> </p>
+                <p> ${fullNews.newsBody} </p>
+                <p>
+                    <img alt="img" src="data:image/jpeg;base64,${fullNews.base64imageFile}">
+                </p>
             </td>
             </tr>
         </table>

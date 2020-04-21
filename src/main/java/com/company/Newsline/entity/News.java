@@ -27,7 +27,6 @@ public class News {
     private String headline;
 
     @CreationTimestamp
-    @NotNull
     @Column
     private Date postDate = new Date();
 
@@ -35,7 +34,7 @@ public class News {
     @Column(length = 2000)
     private String newsBody;
 
-    @Lob
-    private Byte[] image;
+    private byte[] image;
 
+    private transient String base64imageFile;
 }
