@@ -12,5 +12,6 @@ import java.util.List;
 @Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    Page<News> findAll(Pageable pageable);
+    List<News> findAllByOrderByPostDateDesc();
+    Page<News> findAllByOrderByPostDateDesc(Pageable pageable);
 }

@@ -6,12 +6,15 @@ import com.company.Newsline.repository.NewsRepository;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,10 +31,10 @@ public class NewsServiceImpl implements NewsService{
 //        return null;
 //    }
 
-    @Override
-    public Page<News> getPaginatedNews(Pageable pageable) {
-        return newsRepository.findAll(pageable);
-    }
+//    @Override
+//    public Page<News> getPaginatedNews(Pageable pageable) {
+//        return newsRepository.findAll(pageable);
+//    }
 
     public List<News> findAllNews(){
         return newsRepository.findAll();
@@ -77,6 +80,23 @@ public class NewsServiceImpl implements NewsService{
             news.setBase64imageFile(base64Encoded);
         }
         return news;
+    }
+
+    @Override
+    public Page<News> getAllPaginatedNews(Pageable pageable){
+        return newsRepository.findAllByOrderByPostDateDesc(pageable);
+    }
+
+    public Page<News> getAllPagedNews(Pageable paging)
+    {
+
+        Page<News> pagedResult = newsRepository.findAll(paging);
+        return pagedResult;
+//        if(pagedResult.hasContent()) {
+//            return pagedResult.getContent();
+//        } else {
+//            return new ArrayList<News>();
+//        }
     }
 
 }
