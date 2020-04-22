@@ -1,0 +1,55 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Pagination</title>
+</head>
+<div class="row">
+    <input type="hidden" th:value="${baseUrl}" id="baseUrl"/>
+    <div class="form-group col-md-1">
+        <select class="form-control pagination" id="pageSizeSelect">
+            <option th:each="pageSize : ${pageSizes}" th:text="${pageSize}" th:value="${pageSize}"
+                    th:selected="${pageSize} == ${selectedPageSize}"></option>
+        </select>
+    </div>
+    <div th:if="${items.getTotalPages() != 1}" class="form-group col-md-11 pagination-centered">
+        <ul class="pagination">
+            <li th:class="${items.getNumber() == 0} ? disabled + 'page-item' : 'page-item'">
+                <a class="page-link"
+                   th:attr="page=${1}, pageSize=${selectedPageSize}"
+                   href="#">&laquo;</a>
+            </li>
+            <li th:class="${items.getNumber() == 0} ? disabled + 'page-item' : 'page-item'">
+                <a class="page-link"
+                   th:attr="page=${items.getNumber()}, pageSize=${selectedPageSize}"
+                   href="#">&larr;</a>
+            </li>
+            <li th:class="${items.getNumber() == (page - 1)} ? 'active pointer-disabled page-item' : 'page-item'"
+                th:each="page : ${#numbers.sequence(pager.getStartPage(), pager.getEndPage())}">
+                <a class="page-link"
+                   href="#"
+                   th:text="${page}"
+                   th:id="${'page'+page}"
+                   th:attr="page=${page}, pageSize=${selectedPageSize}">
+                </a>
+            </li>
+            <li th:class="${items.getNumber() + 1 == items.getTotalPages()} ? disabled + 'page-item' : 'page-item'">
+                <a class="page-link" th:if="${items.getNumber() + 1 != items.getTotalPages()}"
+                   th:attr="page=${items.getNumber() + 2}, pageSize=${selectedPageSize}"
+                   href="#">&rarr;
+                </a>
+                <a class="page-link" th:if="${items.getNumber() + 1 == items.getTotalPages()}"
+                   th:attr="page=${items.getNumber() + 1}, pageSize=${selectedPageSize}"
+                   href="#">&rarr;
+                </a>
+            </li>
+            <li th:class="${items.getNumber() + 1 == items.getTotalPages()} ? disabled + 'page-item' : 'page-item'">
+                <a class="page-link"
+                   th:attr="page=${items.getTotalPages()}, pageSize=${selectedPageSize}"
+                   href="#">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</html>

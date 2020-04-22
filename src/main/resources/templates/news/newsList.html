@@ -1,0 +1,41 @@
+<html xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <title>News</title>
+</head>
+<body>
+<script type="text/javascript">
+    $(document).on("change", "#pageSizeSelect", function (event) {
+        $("#pageSize").val(this.value);
+        $("#page").val(1);
+        search();
+    });
+
+    $(document).on("click", ".page-link", function (event) {
+        $("#pageSize").val($(this).attr("pageSize"));
+        $("#page").val($(this).attr("page"));
+        search();
+    });
+    function search() {
+        $.ajax({
+            url: $('#searchForm').attr('action'),
+            data: $('#searchForm').serialize(),
+            type: "POST",
+            success: function (returnedData) {
+                $('#searchResults').html(returnedData);
+            }
+        });
+    }
+</script>
+<div id="searchResults">
+    <object th:include="news/newsTh" th:remove="tag"/>
+</div>
+
+</body>
+</html>

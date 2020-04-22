@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<form action="#" id="searchForm" th:action="@{/news/search/}" th:object="${pattern}" method="post">
+    <table class="table table-bordered table-hover table-striped"
+           data-pagination="true"
+           data-side-pagination="server">
+        <thead>
+        <tr class="filters">
+            <input type="hidden" th:field="*{answer}" id="answer"/>
+            <input type="hidden" th:field="*{statusRequest}" id="statusRequest"/>
+            <input type="hidden" th:field="*{pageSize}" id="pageSize"/>
+            <input type="hidden" th:field="*{page}" id="page"/>
+            <th>ID</th>
+            <th>Headline</th>
+            <th>Post date</th>
+            <th>News body</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:text="${item.id}"></td>
+            <td th:text="${item.headline}"></td>
+            <td th:text="${item.postDate}"></td>
+            <td th:text="${item.newsBody}"></td>
+            <td>actions</td>
+        </tr>
+        </tbody>
+    </table>
+</form>
+<object th:include="/partial/pagination" th:remove="tag"></object>
+
+</html>

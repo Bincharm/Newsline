@@ -3,7 +3,10 @@ package com.company.Newsline.controller;
 import com.company.Newsline.entity.News;
 import com.company.Newsline.model.NewsModel;
 import com.company.Newsline.service.NewsServiceImpl;
+import com.company.Newsline.util.BasePattern;
 import com.company.Newsline.util.PageWrapper;
+import com.company.Newsline.util.Pager;
+import com.company.Newsline.util.PaginationConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
@@ -36,7 +39,7 @@ public class NewsController {
 
     @GetMapping
     public ModelAndView newsList(@RequestParam(required = false) Integer page) {
-        ModelAndView modelAndView = new ModelAndView("news");
+        ModelAndView modelAndView = new ModelAndView("news.jsp");
 
 
         Pageable paging = PageRequest.of(page == null ?  0 : page, 2, Sort.by("id"));
@@ -68,26 +71,53 @@ public class NewsController {
 
     @PostMapping
     public String saveNews(@ModelAttribute("newsForm") NewsModel newsModel){
-        newsServiceImpl.saveNewsFromModel(newsModel);
-        return "redirect:/news";
+        newsServiceImpl.saveOrUpdateNewsFromModel(newsModel);
+        return "redirect:/news.jsp";
     }
 
     @GetMapping("/newsFullVersion/{newsId}")
     public String getNewsFullVersion(Model model, @PathVariable("newsId") Long newsId){
         model.addAttribute("fullNews", newsServiceImpl.findById(newsId));
-        return "newsFullVersion";
+        return "newsFullVersion.jsp";
     }
 
     @GetMapping("/newsSaving/{newsId}")
     public String getNewsSavingForUpdate(Model model, @PathVariable("newsId") Long newsId){
         model.addAttribute("news", newsServiceImpl.findById(newsId));
-        return "newsSaving";
+        return "newsSaving.jsp";
     }
 
     @GetMapping("/newsSaving")
     public String getNewsSavingForCreate(){
-        return "newsSaving";
+        return "newsSaving.jsp";
     }
 
+    @GetMapping("/newsV2")
+    public ModelAndView getNews2(){
+        return getModelAndView(new BasePattern(), "/news/newsList");
+    }
+
+    @PostMapping(value = "/search")
+    public ModelAndView search(@ModelAttribute BasePattern pattern) {
+        return getModelAndView(pattern, "/news/newsList");
+    }
+
+
+    private ModelAndView getModelAndView(BasePattern basePattern, String view) {
+        ModelAndView modelAndView = new ModelAndView(view);
+        int pageSize = basePattern.getPageSize() == null ?
+                PaginationConstant.INITIAL_PAGE_SIZE : basePattern.getPageSize();
+        int page = (basePattern.getPage() == null || basePattern.getPage() < 1) ?
+                PaginationConstant.INITIAL_PAGE : basePattern.getPage() - 1;
+
+        Page<News> news = newsServiceImpl.getAllPaginatedNews(PageRequest.of(page, pageSize, Sort.by(Sort.Direction.DESC, "id")));
+        Pager pager = new Pager(news.getTotalPages(), news.getNumber(), PaginationConstant.BUTTONS_TO_SHOW);
+        modelAndView.addObject("items", news);
+        modelAndView.addObject("selectedPageSize", pageSize);
+        modelAndView.addObject("pageSizes", PaginationConstant.PAGE_SIZES);
+        modelAndView.addObject("pager", pager);
+        modelAndView.addObject("pattern", basePattern);
+        return modelAndView;
+    }
 
 }

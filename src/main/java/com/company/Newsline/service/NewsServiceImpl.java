@@ -72,6 +72,31 @@ public class NewsServiceImpl implements NewsService{
         }
     }
 
+    public void updateNewsFromModel(NewsModel newsModel){
+        News news = findById(newsModel.getId());
+
+        news.setHeadline(newsModel.getHeadline());
+        news.setNewsBody(newsModel.getNewsBody());
+
+        if(newsModel.getImage() != null && newsModel.getImage().getOriginalFilename() != null
+                && !newsModel.getImage().getOriginalFilename().equals("")){
+            try {
+                news.setImage(newsModel.getImage().getBytes());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        newsRepository.save(news);
+    }
+
+    public void saveOrUpdateNewsFromModel(NewsModel newsModel){
+        if(newsModel.getId() == null){
+            saveNewsFromModel(newsModel);
+        }
+        else updateNewsFromModel(newsModel);
+    }
+
     public News findById(Long newsId){
         News news = newsRepository.findById(newsId).orElse(new News());
         if (news.getImage() != null) {

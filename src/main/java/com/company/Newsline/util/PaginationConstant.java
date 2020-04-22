@@ -1,0 +1,9 @@
+package com.company.Newsline.util;
+
+public final class PaginationConstant {
+    public static final int BUTTONS_TO_SHOW = 5;
+    public static final int INITIAL_PAGE = 0;
+    public static final int INITIAL_PAGE_SIZE = 5;
+    public static final int INITIAL_MAX_PAGE_SIZE = 50;
+    public static final int[] PAGE_SIZES = { 5, 20, 50 };
+}

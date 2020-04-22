@@ -23,7 +23,7 @@ public class News {
     private Long id;
 
     @NotNull
-    @Column
+    @Column(length = 500)
     private String headline;
 
     @CreationTimestamp

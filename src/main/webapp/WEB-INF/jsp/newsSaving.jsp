@@ -26,7 +26,7 @@
                 <td>
                     <form action="${pageContext.request.contextPath}/news" method="post"  enctype="multipart/form-data">
                     <input type="hidden" name="id" value="${news.id}">
-                    <input type="text" name="headline" value=${news.headline}>
+                    <input type="text" name="headline" value="${news.headline}">
                 </td>
             </tr>
             <tr>
@@ -43,7 +43,7 @@
             <%--</tr>--%>
             <tr>
                 <td>
-                <input type="text" name="newsBody" value=${news.newsBody}>
+                <input type="text" name="newsBody" value="${news.newsBody}">
                 <input type="hidden" name="action" value="save">
                 </td>
             </tr>
