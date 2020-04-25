@@ -21,6 +21,7 @@ public class RegistrationController {
 
     UserService userService;
 
+    //gets registration page
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -28,6 +29,7 @@ public class RegistrationController {
         return "registration";
     }
 
+    //adds user to DB = registers a user
     @PostMapping("/registration")
     public String addUser(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
 

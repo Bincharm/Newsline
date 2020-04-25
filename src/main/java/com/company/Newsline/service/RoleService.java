@@ -14,10 +14,12 @@ public class RoleService {
 
     RoleRepository roleRepository;
 
+    //gets a role by its name
     public Role findRoleByName(String roleName) {
         return roleRepository.findFirstByName(roleName);
     }
 
+    //adds a new role to DB
     public Role save (Role role) {
         return roleRepository.save(role);
     }

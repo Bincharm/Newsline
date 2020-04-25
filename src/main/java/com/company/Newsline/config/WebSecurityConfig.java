@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,28 +36,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                //Доступ только для не зарегистрированных пользователей
+                //Access only for unauthorized users
                 .antMatchers("/registration").not().fullyAuthenticated()
-                //Доступ только для пользователей с ролью Администратор
-//                .antMatchers("/admin/**").hasRole("ADMIN")
+                //Access only for users which have Admin role
                 .antMatchers("/news/newsV2/**").hasRole("ADMIN")
                 .antMatchers("/news/newsFullVersion/**").hasRole("ADMIN")
                 .antMatchers("/news/newsSaving/**").hasRole("ADMIN")
                 .antMatchers("/news/delete/**").hasRole("ADMIN")
-                //Доступ разрешен всем пользователей
+                //Access for everyone
                 .antMatchers("/", "/resources/**").permitAll()
                 .antMatchers("/news/newsV2ForAll/**").permitAll()
                 .antMatchers("/news/newsFullVersionForAll/**").permitAll()
                 .antMatchers("/news/searchForAll/**").permitAll()
-//                .antMatchers("/game").hasRole("USER")
-//                .antMatchers("/news").hasRole("USER")
-                //Все остальные страницы требуют аутентификации
+                //Another pages require authentication
                 .anyRequest().authenticated()
                 .and()
-                //Настройка для входа в систему
+                //Setting for logging in
                 .formLogin()
                 .loginPage("/login")
-                //Перенарпавление на главную страницу после успешного входа
+                //Redirecting to the main page after successful logging in
                 .defaultSuccessUrl("/")
                 .permitAll()
                 .and()
@@ -72,10 +68,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder());
     }
 
-//    @Override
-//    public void configure(WebSecurity web) {
-//        web
-//                .ignoring()
-//                .antMatchers(UNSECURED_RESOURCE_LIST);
-//    }
+
 }

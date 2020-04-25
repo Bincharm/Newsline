@@ -33,6 +33,7 @@ public class UserService implements UserDetailsService {
     UserRepository userRepository;
     RoleService roleService;
 
+    //loads user by his/her username
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
@@ -44,6 +45,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
+    //checks role of the user
     public boolean checkRole(String roleName) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -57,10 +59,12 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
+    //gets user by his/her username
     public User getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
+    //gets current user
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
@@ -72,19 +76,24 @@ public class UserService implements UserDetailsService {
         return getByUsername(userDetails.getUsername());
     }
 
+    //gets user by userId or empty User object
     public User findUserById(Long userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(new User());
     }
+
+    //adds a new user to DB with encoding a password
     public User save(User user) {
         user.setPassword(BCryptSingleton.getInstance().encode(user.getPassword()));
         return userRepository.save(user);
     }
 
+    //gets all users
     public List<User> allUsers() {
         return userRepository.findAll();
     }
 
+    //adds a new user to DB with ROLE_USER if it does not exists already
     public boolean saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
@@ -98,6 +107,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    //deletes a user with userId
     public boolean deleteUser(Long userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);

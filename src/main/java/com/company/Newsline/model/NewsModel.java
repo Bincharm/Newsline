@@ -14,5 +14,5 @@ public class NewsModel {
     String headline;
     String newsBody;
 
-    MultipartFile image;
+    MultipartFile image; //it is needed for conversion the image
 }

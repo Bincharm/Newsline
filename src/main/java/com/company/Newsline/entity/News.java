@@ -36,5 +36,5 @@ public class News {
 
     private byte[] image;
 
-    private transient String base64imageFile;
+    private transient String base64imageFile; //it is needed for conversion the image
 }

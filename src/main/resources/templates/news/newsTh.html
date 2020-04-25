@@ -38,21 +38,14 @@
             <td th:text="${#dates.format(item.postDate, 'E, dd MMM yyyy HH:mm:ss')}" style="max-width: 15px;"></td>
             <td th:text="${item.newsBody}" style="max-width: 140px; white-space : nowrap; overflow : hidden;"></td>
             <td style="max-width: 10px;">
-                <!--form action="#" th:action="@{'/news/newsSaving/' + ${item.id}}" method="get">
-                    <button type="submit">Update</button>
-                </form-->
 
                 <a th:href="@{'/news/newsFullVersion/' + ${item.id}}"> <i class="fa fa-eye"></i> </a>
 
                 <a th:href="@{'/news/newsSaving/?newsId=' + ${item.id}}"> <i class="fa fa-edit"></i> </a>
 
 
-                <!--form enctype="multipart/form-data" action="#" th:action="@{'/news/delete/' + ${item.id}}" method="get"-->
-                                              <!--th:object="${item}"-->
-
-                    <!--input type="hidden" name="newsId" th:field="*{id}"-->
                      <a th:href="@{'/news/delete/' + ${item.id}}"><i class="fa fa-trash"></i></a>
-                <!--/form-->
+
             </td>
 
         </tr>

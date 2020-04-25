@@ -25,6 +25,8 @@ public class Bootstrap implements CommandLineRunner {
     UserRepository userRepository;
     RoleService roleService;
 
+//This class creates user roles ROLE_ADMIN & ROLE_USER,
+//and adds Admin user to DB only for the first launch
 
     @Override
     public void run(String... args) throws Exception {
