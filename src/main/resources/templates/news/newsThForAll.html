@@ -1,0 +1,45 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<form action="#" id="searchForm" th:action="@{/news/searchForAll/}" th:object="${pattern}" method="post">
+
+
+    <table class="table"
+           data-pagination="true"
+           data-side-pagination="server" th:each="item : ${items}">
+        <thead>
+        <tr class="filters">
+            <input type="hidden" th:field="*{answer}" id="answer"/>
+            <input type="hidden" th:field="*{statusRequest}" id="statusRequest"/>
+            <input type="hidden" th:field="*{pageSize}" id="pageSize"/>
+            <input type="hidden" th:field="*{page}" id="page"/>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td rowspan="3"  style="width: 50px;">
+                <a th:href="@{'/news/newsFullVersionForAll/' + ${item.id}}">
+                    <img alt="" th:src="${'data:image/jpeg;base64,'+item.base64imageFile}"
+                        style="height: 200px; width: 200px">
+                </a>
+            </td>
+            <td  style="font-weight:bold">
+                <a th:href="@{'/news/newsFullVersionForAll/' + ${item.id}}">
+
+                    <label th:text="${item.headline}"></label>
+                </a>
+            </td>
+        </tr>
+        <tr>
+            <td th:text="${#dates.format(item.postDate, 'E, dd MMM yyyy HH:mm:ss')}"></td>
+        </tr>
+        <tr>
+            <td th:text="${item.newsBody}" style="max-width: 140px; white-space : nowrap; overflow : hidden;"></td>
+
+        </tr>
+
+        </tbody>
+    </table>
+</form>
+<object th:include="/partial/pagination" th:remove="tag"></object>
+<a href="/" class="btn btn-primary">Main menu</a>
+</html>

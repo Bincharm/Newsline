@@ -1,0 +1,26 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+                      xmlns:th="http://www.thymeleaf.org">
+<head>
+        <title>Main menu</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+         <!--link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css"-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        </head>
+        <body>
+        <div>
+        <!--h3>${pageContext.request.userPrincipal.name}</h3-->
+        <div sec:authorize="isAnonymous()">
+            <h4><a href="/login">Log in</a></h4>
+            <h4><a href="/registration">Registration</a></h4>
+        </div>
+        <div sec:authorize="isAuthenticated()">
+            <h4><a href="/logout">Log out</a></h4>
+        </div>
+        <h4><a href="/news/newsV2">News (only for admin)</a></h4>
+        <h4><a href="/news/newsV2ForAll">News (for all)</a></h4>
+        <!--h4><a href="/game">Игра "Поле чудес" (только зарегистрированные)</a></h4>
+        <h4><a href="/report">Отчет по игре" (только зарегистрированные)</a></h4-->
+        </div>
+        </body>
+</html>

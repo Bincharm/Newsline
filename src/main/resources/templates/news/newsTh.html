@@ -1,6 +1,20 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <form action="#" id="searchForm" th:action="@{/news/search/}" th:object="${pattern}" method="post">
+
+    <table class="table table-striped table-hover">
+        <thead class="thead-dark">
+        <th>Create a news</th>
+        </thead>
+
+        <tr>
+            <td>
+                <!-a href="/news/newsSaving"  Create /a-->
+                <a class="btn btn-dark" th:href="@{/news/newsSaving}">Create</a>
+            </td>
+        </tr>
+    </table>
+
     <table class="table table-bordered table-hover table-striped"
            data-pagination="true"
            data-side-pagination="server">
@@ -20,14 +34,31 @@
         <tbody>
         <tr th:each="item : ${items}">
             <td th:text="${item.id}"></td>
-            <td th:text="${item.headline}"></td>
-            <td th:text="${item.postDate}"></td>
-            <td th:text="${item.newsBody}"></td>
-            <td>actions</td>
+            <td th:text="${item.headline}" style="max-width: 50px;"></td>
+            <td th:text="${#dates.format(item.postDate, 'E, dd MMM yyyy HH:mm:ss')}" style="max-width: 15px;"></td>
+            <td th:text="${item.newsBody}" style="max-width: 140px; white-space : nowrap; overflow : hidden;"></td>
+            <td style="max-width: 10px;">
+                <!--form action="#" th:action="@{'/news/newsSaving/' + ${item.id}}" method="get">
+                    <button type="submit">Update</button>
+                </form-->
+
+                <a th:href="@{'/news/newsFullVersion/' + ${item.id}}"> <i class="fa fa-eye"></i> </a>
+
+                <a th:href="@{'/news/newsSaving/?newsId=' + ${item.id}}"> <i class="fa fa-edit"></i> </a>
+
+
+                <!--form enctype="multipart/form-data" action="#" th:action="@{'/news/delete/' + ${item.id}}" method="get"-->
+                                              <!--th:object="${item}"-->
+
+                    <!--input type="hidden" name="newsId" th:field="*{id}"-->
+                     <a th:href="@{'/news/delete/' + ${item.id}}"><i class="fa fa-trash"></i></a>
+                <!--/form-->
+            </td>
+
         </tr>
         </tbody>
     </table>
 </form>
 <object th:include="/partial/pagination" th:remove="tag"></object>
-
+<a href="/" class="btn btn-primary">Main menu</a>
 </html>

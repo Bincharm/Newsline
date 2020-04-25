@@ -99,17 +99,33 @@ public class NewsServiceImpl implements NewsService{
 
     public News findById(Long newsId){
         News news = newsRepository.findById(newsId).orElse(new News());
+        return bytesToBase64(news);
+    }
+
+    public boolean deleteNews(Long newsId) {
+        if (newsRepository.findById(newsId).isPresent()) {
+            newsRepository.deleteById(newsId);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public Page<News> getAllPaginatedNews(Pageable pageable){
+        Page<News> paginatedNews = newsRepository.findAllByOrderByPostDateDesc(pageable);
+        for(News news : paginatedNews){
+            bytesToBase64(news);
+        }
+        return paginatedNews;
+    }
+
+    public News bytesToBase64(News news){
         if (news.getImage() != null) {
             byte[] encodeBase64 = Base64.encodeBase64(news.getImage());
             String base64Encoded = new String(encodeBase64, StandardCharsets.UTF_8);
             news.setBase64imageFile(base64Encoded);
         }
         return news;
-    }
-
-    @Override
-    public Page<News> getAllPaginatedNews(Pageable pageable){
-        return newsRepository.findAllByOrderByPostDateDesc(pageable);
     }
 
     public Page<News> getAllPagedNews(Pageable paging)

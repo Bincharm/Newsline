@@ -1,0 +1,73 @@
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+                      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <title>Full news</title>
+</head>
+<body>
+
+    <div>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <th>Saving news</th>
+            </thead>
+
+            <tr>
+                <td>
+
+                    <input type="hidden" name="id" th:field="${news.id}">
+                    <!--input type="text" name="headline" th:field="*{headline}"-->
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">Headline</span>
+                      </div>
+                      <input type="text" class="form-control" id="basic-url" disabled
+                            th:field="${news.headline}" aria-describedby="basic-addon3" maxlength="500">
+                    </div>
+
+                    <div class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3" data-th-text="*{#dates.format(news.postDate, 'E, dd MMM yyyy HH:mm:ss')}">Post date</span>
+                      </div>
+
+                    </div>
+
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <img alt="" th:src="${'data:image/jpeg;base64,'+news.base64imageFile}">
+
+                </td>
+            </tr>
+            <!--tr>--%>
+                <%--<td>--%>
+                    <%--<input type="text" name="postDate" th:field="*{postDate}"/>--%>
+                <%--</td>--%>
+            <%--</tr-->
+            <tr>
+                <td>
+                <!--input type="text" name="newsBody" th:field="*{news.newsBody}"-->
+
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">News body</span>
+                  </div>
+                  <textarea class="form-control" aria-label="News body" disabled
+                        th:field="${news.newsBody}" maxlength="2000" cols="10"
+                        style="height: 500px;"></textarea>
+                </div>
+
+                </td>
+            </tr>
+
+        </table>
+
+        <a href="/" class="btn btn-primary">Main menu</a>
+    </div>
+
+</body>
+</html>
